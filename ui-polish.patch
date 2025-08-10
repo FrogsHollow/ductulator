@@ -1,0 +1,194 @@
+
+diff --git a/src/components/ductulator/Ductulator.tsx b/src/components/ductulator/Ductulator.tsx
+index 0000000..1111111 100644
+--- a/src/components/ductulator/Ductulator.tsx
++++ b/src/components/ductulator/Ductulator.tsx
+@@ -22,6 +22,16 @@ import {
+   SelectItem,
+ } from "@/components/ui/select";
+ import { cn } from "@/lib/utils";
+ 
++// shadcn extras for UI polish
++import { Badge } from "@/components/ui/badge";
++import { Separator } from "@/components/ui/separator";
++import {
++  Tooltip,
++  TooltipTrigger,
++  TooltipContent,
++  TooltipProvider,
++} from "@/components/ui/tooltip";
++
+ // ===================== units & physics helpers =====================
+ const mmToM = (mm: number) => mm / 1000;
+ const mToMm = (m: number) => m * 1000;
+@@ -356,7 +366,7 @@ export default function Ductulator() {
+             </div>
+           </div>
+ 
+-          <div className="border-t my-3" />
++          <Separator className="my-3" />
+ 
+           {/* Mode tabs */}
+           <div className="mb-4">
+@@ -389,26 +399,34 @@ export default function Ductulator() {
+             {/* Left: Inputs */}
+             <div>
+               {/* Width */}
+-              <div className="mb-2">
+-                <Label className="mb-1 block">Width (mm)</Label>
+-                <Input
+-                  value={bufWidth}
+-                  onChange={(e) => {
+-                    setBufWidth(e.target.value);
+-                    if (!liveMode) setStale(true);
+-                    else scheduleLiveSolve();
+-                  }}
+-                  onKeyDown={onKeyDownSolve}
+-                  disabled={mode === "magic" && magicLocks.width}
+-                />
+-              </div>
++              <div className="mb-2">
++                <Label className="mb-1 block">Width</Label>
++                <div className="relative">
++                  <Input
++                    value={bufWidth}
++                    onChange={(e) => {
++                      setBufWidth(e.target.value);
++                      if (!liveMode) setStale(true); else scheduleLiveSolve();
++                    }}
++                    onKeyDown={onKeyDownSolve}
++                    disabled={mode === "magic" && magicLocks.width}
++                    className="pr-16"
++                  />
++                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-500">mm</span>
++                </div>
++              </div>
+ 
+               {/* Height */}
+-              <div className="mb-2">
+-                <Label className="mb-1 block">Height (mm)</Label>
+-                <Input
+-                  value={bufHeight}
+-                  onChange={(e) => {
+-                    setBufHeight(e.target.value);
+-                    if (!liveMode) setStale(true);
+-                    else scheduleLiveSolve();
+-                  }}
+-                  onKeyDown={onKeyDownSolve}
+-                  disabled={mode === "magic" && magicLocks.height}
+-                />
+-              </div>
++              <div className="mb-2">
++                <Label className="mb-1 block">Height</Label>
++                <div className="relative">
++                  <Input
++                    value={bufHeight}
++                    onChange={(e) => {
++                      setBufHeight(e.target.value);
++                      if (!liveMode) setStale(true); else scheduleLiveSolve();
++                    }}
++                    onKeyDown={onKeyDownSolve}
++                    disabled={mode === "magic" && magicLocks.height}
++                    className="pr-16"
++                  />
++                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-500">mm</span>
++                </div>
++              </div>
+@@ -468,19 +486,27 @@ export default function Ductulator() {
+               </div>
+ 
+               {/* Velocity */}
+-              <div className="mb-2">
+-                <Label className="mb-1 block">Velocity (m/s)</Label>
+-                <Input
+-                  value={bufVelocity}
+-                  onChange={(e) => {
+-                    setBufVelocity(e.target.value);
+-                    if (!liveMode) setStale(true);
+-                    else scheduleLiveSolve();
+-                  }}
+-                  onKeyDown={onKeyDownSolve}
+-                  disabled={mode === "magic" && magicLocks.velocity}
+-                />
+-              </div>
++              <div className="mb-2">
++                <Label className="mb-1 block">Velocity</Label>
++                <div className="relative">
++                  <Input
++                    value={bufVelocity}
++                    onChange={(e) => {
++                      setBufVelocity(e.target.value);
++                      if (!liveMode) setStale(true); else scheduleLiveSolve();
++                    }}
++                    onKeyDown={onKeyDownSolve}
++                    disabled={mode === "magic" && magicLocks.velocity}
++                    className="pr-16"
++                  />
++                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-500">m/s</span>
++                </div>
++              </div>
+ 
+               {/* Target dp */}
+-              <div className="mb-2">
+-                <Label className="mb-1 block">Target pressure drop (Pa/m)</Label>
+-                <Input
+-                  value={bufTargetDp}
+-                  onChange={(e) => {
+-                    setBufTargetDp(e.target.value);
+-                    if (!liveMode) setStale(true);
+-                    else scheduleLiveSolve();
+-                  }}
+-                  onKeyDown={onKeyDownSolve}
+-                  disabled={mode === "magic" && magicLocks.dp}
+-                />
+-              </div>
++              <div className="mb-2">
++                <div className="mb-1 flex items-center gap-2">
++                  <Label className="block">Target pressure drop</Label>
++                  <TooltipProvider>
++                    <Tooltip>
++                      <TooltipTrigger asChild>
++                        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border text-xs text-slate-600 cursor-default">?</span>
++                      </TooltipTrigger>
++                      <TooltipContent side="top" className="max-w-xs">
++                        <p>Used in Fixed Dim and Max Flow modes to size for a maximum Pa/m. Enter 0 if you’re constraining by velocity instead.</p>
++                      </TooltipContent>
++                    </Tooltip>
++                  </TooltipProvider>
++                </div>
++                <div className="relative">
++                  <Input
++                    value={bufTargetDp}
++                    onChange={(e) => {
++                      setBufTargetDp(e.target.value);
++                      if (!liveMode) setStale(true); else scheduleLiveSolve();
++                    }}
++                    onKeyDown={onKeyDownSolve}
++                    disabled={mode === "magic" && magicLocks.dp}
++                    className="pr-16"
++                  />
++                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-500">Pa/m</span>
++                </div>
++              </div>
+@@ -540,8 +566,12 @@ export default function Ductulator() {
+-              <div className={cn("rounded p-4", stale ? "bg-yellow-100" : "bg-white")}>
+-                <h4 className="mb-2 font-medium">Results</h4>
++              <div className={cn("rounded p-4", stale ? "bg-yellow-100" : "bg-white")}>
++                <div className="mb-2 flex items-center gap-2">
++                  <h4 className="font-medium">Results</h4>
++                  <Badge variant="secondary" className="uppercase">{mode}</Badge>
++                  {stale && <Badge variant="destructive" className="ml-auto">Stale</Badge>}
++                </div>
+                 {!results && (
+                   <div className="text-sm text-slate-500">
+                     No results yet — press Solve or use Live mode.
+                   </div>
+                 )}
+@@ -617,9 +647,6 @@ export default function Ductulator() {
+-                {stale && (
+-                  <div className="mt-2 text-xs text-yellow-800">Results are stale — press Solve.</div>
+-                )}
+               </div>
+             </div>
+           </div>
+ | Set-Content -Encoding Ascii ui-polish.patch
