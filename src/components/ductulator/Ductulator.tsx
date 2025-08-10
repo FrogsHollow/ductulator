@@ -913,11 +913,11 @@ export default function Ductulator() {
               )}
 
               <div className={cn("rounded p-4", stale ? "bg-yellow-100" : "bg-white")}>
-                <div\ className="mb-2\ flex\ items-center\ gap-2">
-\ \ <h4\ className="font-medium">Results</h4>
-\ \ <Badge\ variant="secondary"\ className="uppercase">\{mode}</Badge>
-\ \ \{stale\ &&\ <Badge\ variant="destructive"\ className="ml-auto">Stale</Badge>}
-</div>
+  <div className="mb-2 flex items-center gap-2">
+    <h4 className="font-medium">Results</h4>
+    <Badge variant="secondary" className="uppercase">{mode}</Badge>
+    {stale && <Badge variant="destructive" className="ml-auto">Stale</Badge>}
+  </div>
                 {!results && (
                   <div className="text-sm text-slate-500">
                     No results yet — press Solve or use Live mode.
