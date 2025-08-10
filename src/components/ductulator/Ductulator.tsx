@@ -832,7 +832,7 @@ export default function Ductulator() {
         <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border text-xs text-slate-600 cursor-default">?</span>
       </TooltipTrigger>
       <TooltipContent side="top" className="max-w-xs">
-        <p>Used in Fixed Dim and Max Flow modes to size for a maximum Pa/m. Enter 0 if you’re constraining by velocity instead.</p>
+        <p>Used in Fixed Dim and Max Flow modes to size for a maximum Pa/m. Enter 0 if youï¿½re constraining by velocity instead.</p>
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
@@ -986,6 +986,4 @@ export default function Ductulator() {
     </div>
   );
 }
-
-
 
