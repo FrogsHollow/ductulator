@@ -824,7 +824,19 @@ export default function Ductulator() {
 
               {/* Target dp */}
               <div className="mb-2">
-                <Label className="mb-1 block">Target pressure drop (Pa/m)</Label>
+                <div className="mb-1 flex items-center gap-2">
+  <Label className="block">Target pressure drop (Pa/m)</Label>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border text-xs text-slate-600 cursor-default">?</span>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="max-w-xs">
+        <p>Used in Fixed Dim and Max Flow modes to size for a maximum Pa/m. Enter 0 if you’re constraining by velocity instead.</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</div>
                 <Input
                   value={bufTargetDp}
                   onChange={(e) => {
@@ -901,7 +913,11 @@ export default function Ductulator() {
               )}
 
               <div className={cn("rounded p-4", stale ? "bg-yellow-100" : "bg-white")}>
-                <h4 className="mb-2 font-medium">Results</h4>
+                <div\ className="mb-2\ flex\ items-center\ gap-2">
+\ \ <h4\ className="font-medium">Results</h4>
+\ \ <Badge\ variant="secondary"\ className="uppercase">\{mode}</Badge>
+\ \ \{stale\ &&\ <Badge\ variant="destructive"\ className="ml-auto">Stale</Badge>}
+</div>
                 {!results && (
                   <div className="text-sm text-slate-500">
                     No results yet â€” press Solve or use Live mode.
@@ -970,4 +986,6 @@ export default function Ductulator() {
     </div>
   );
 }
+
+
 
